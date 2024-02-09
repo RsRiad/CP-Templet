@@ -1,62 +1,62 @@
 struct SegmentTree {
-    ll n;
-    vector<ll> st;
+    int N;
+    vector<int> st;
 
-    void init(ll _n) {
-        n = _n;
-        st.resize(4 * n, 0);
+    void init(int _n) {
+        N = _n;
+        st.resize(4 * N, 0);
     }
 
-    void build(ll node, ll s, ll e, vector<ll> &v) {
+    void build(int n, int s, int e, vector<int> &v) {
         if (s == e) {
-            st[node] = v[s];
+            st[n] = v[s];
             return;
         }
-        ll mid = (s + e) >> 1;
-        ll l = node << 1;
-        ll r = l | 1;
+        int mid = (s + e) >> 1;
+        int l = n << 1;
+        int r = l | 1;
         build(l, s, mid, v);
         build(r, mid + 1, e, v);
-        st[node] = st[l] + st[r];
+        st[n] = st[l] + st[r];
     }
 
-    ll query(ll node, ll s, ll e, ll i, ll j) {
+    int query(int n, int s, int e, int i, int j) {
         if (s > j || e < i) {
             return 0;
         }
         if (s >= i && e <= j) {
-            return st[node];
+            return st[n];
         }
-        ll mid = (s + e) >> 1;
-        ll l = node << 1;
-        ll r = l | 1;
-        ll q1 = query(l, s, mid, i, j);
-        ll q2 = query(r, mid + 1, e, i, j);
+        int mid = (s + e) >> 1;
+        int l = n << 1;
+        int r = l | 1;
+        int q1 = query(l, s, mid, i, j);
+        int q2 = query(r, mid + 1, e, i, j);
         return q1 + q2;
     }
 
-    void update(ll node, ll s, ll e, ll index, ll value) {
+    void update(int n, int s, int e, int index, int value) {
         if (s == e) {
-            st[node] = value;
+            st[n] = value;
             return;
         }
-        ll mid = (s + e) >> 1;
-        ll l = node << 1;
-        ll r = l | 1;
+        int mid = (s + e) >> 1;
+        int l = n << 1;
+        int r = l | 1;
         if (index <= mid) update(l, s, mid, index, value);
         else update(r, mid + 1, e, index, value);
-        st[node] = st[l] + st[r];
+        st[n] = st[l] + st[r];
     }
 
-    void build(vector<ll> &v) {
-        build(1, 0, n - 1, v);
+    void build(vector<int> &v) {
+        build(1, 0, N - 1, v);
     }
 
-    ll query(ll l, ll r) {
-        return query(1, 0, n - 1, l, r);
+    int query(int l, int r) {
+        return query(1, 0, N - 1, l, r);
     }
 
-    void update(ll x, ll y) {
-        update(1, 0, n - 1, x, y);
+    void update(int x, int y) {
+        update(1, 0, N - 1, x, y);
     }
-};
+}s;
